@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_14.html -->
+<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_15.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -985,7 +985,7 @@ function saveDrawer(){
   const p=posts.find(x=>x.id===drawerId);if(!p)return;
   snapshot();
   p.text=document.getElementById('d-text').value;
-  p.files=drawerFiles.map(f=>({name:f.name,size:f.size,type:f.type,data:f.data||null}));
+  p.files=drawerFiles.map(f=>({name:f.name,size:f.size,type:f.type,data:f.data||f.preview||null}));
   save();render();if(view==='cal')renderCal();
   document.getElementById('d-hint').textContent='Сохранено ✓';
   setTimeout(()=>{document.getElementById('d-hint').textContent='';},2000);
@@ -996,13 +996,14 @@ function renderFiles(){
   const el=document.getElementById('file-list');
   if(!drawerFiles.length){el.innerHTML='';return;}
   el.innerHTML=drawerFiles.map((f,i)=>{
+    const src=f.data||f.preview||null;
     const isImg=f.type&&f.type.startsWith('image/');
-    const thumb=f.data?(isImg?`<img src="${f.data}" alt="">`:'📄'):(f.type&&f.type.startsWith('video/')?'▶':'📄');
+    const thumb=src?(isImg?`<img src="${src}" alt="">`:'📄'):(f.type&&f.type.startsWith('video/')?'▶':'📄');
     return `<div class="file-item">
       <div class="f-thumb">${thumb}</div>
       <div class="f-info"><div class="f-name">${f.name}</div><div class="f-size">${fmtSize(f.size)}</div></div>
       <div class="f-actions">
-        ${f.data?`<button class="f-dl" onclick="downloadFile(${i})" title="Скачать">⬇</button>`:''}
+        ${src?`<button class="f-dl" onclick="downloadFile(${i})" title="Скачать">⬇</button>`:''}
         <button class="f-del" onclick="removeFile(${i})">×</button>
       </div>
     </div>`;
@@ -1010,11 +1011,10 @@ function renderFiles(){
 }
 function downloadFile(i){
   const f=drawerFiles[i];
-  if(!f||!f.data)return;
+  const src=f.data||f.preview||null;
+  if(!src)return;
   const a=document.createElement('a');
-  a.href=f.data;
-  a.download=f.name;
-  a.click();
+  a.href=src;a.download=f.name;a.click();
 }
 function removeFile(i){drawerFiles.splice(i,1);renderFiles();}
 function fmtSize(b){if(!b)return '';if(b<1024)return b+' B';if(b<1048576)return Math.round(b/1024)+' KB';return (b/1048576).toFixed(1)+' MB';}
