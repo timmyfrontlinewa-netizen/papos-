@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_16.html -->
+<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_17.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -570,12 +570,38 @@ async function sbFetch(){
 }
 async function sbSave(data){
   try{
+    // Strip heavy file data before sending to Supabase — files stay local only
+    const lean={
+      ...data,
+      posts:data.posts.map(p=>({
+        ...p,
+        files:(p.files||[]).map(f=>({name:f.name,size:f.size,type:f.type})) // no data/preview
+      }))
+    };
     const r=await fetch(SB_URL+'/rest/v1/plan_data',{
       method:'POST',headers:SB_H,
-      body:JSON.stringify({key:'main',value:data,updated_at:new Date().toISOString()})
+      body:JSON.stringify({key:'main',value:lean,updated_at:new Date().toISOString()})
     });
     return r.ok;
   }catch(e){return false;}
+}
+// Ping Supabase every 4 min so it doesn't sleep
+function keepAlive(){setInterval(()=>fetch(SB_URL+'/rest/v1/plan_data?key=eq.main&select=key',{headers:SB_H}).catch(()=>{}),240000);}
+
+// Merge remote posts with local file data
+function mergeFilesFromLocal(remotePosts){
+  const local=getLocalData();
+  if(!local||!local.posts)return remotePosts;
+  return remotePosts.map(rp=>{
+    const lp=local.posts.find(x=>x.id===rp.id);
+    if(!lp||!lp.files||!lp.files.length)return rp;
+    // restore file data from local if names match
+    const merged=(rp.files||[]).map(rf=>{
+      const lf=lp.files.find(f=>f.name===rf.name&&f.size===rf.size);
+      return lf&&(lf.data||lf.preview)?{...rf,data:lf.data||lf.preview}:rf;
+    });
+    return {...rp,files:merged};
+  });
 }
 
 /* ===== STORAGE ===== */
@@ -618,6 +644,8 @@ async function load(){
   if(remote&&remote.posts){
     const remoteSavedAt=remote.savedAt||0;
     if(remoteSavedAt>lastLocalSaveAt){
+      // Restore local file data into remote posts before applying
+      remote.posts=mergeFilesFromLocal(remote.posts);
       applyData(remote);
       lastRemoteSavedAt=remoteSavedAt;
       lastLocalSaveAt=remoteSavedAt;
@@ -670,6 +698,7 @@ function startPolling(){
     const remoteSavedAt=remote.savedAt||0;
     // only apply if remote is newer than what we last saved
     if(remoteSavedAt>lastLocalSaveAt){
+      remote.posts=mergeFilesFromLocal(remote.posts);
       applyData(remote);
       lastRemoteSavedAt=remoteSavedAt;
       lastLocalSaveAt=remoteSavedAt;
@@ -690,7 +719,8 @@ async function manualSync(){
   const localData=getLocalData();
   const localSavedAt=localData?.savedAt||0;
   if(remoteSavedAt>=localSavedAt){
-    // remote is newer or equal — apply it
+    // remote is newer or equal — apply it, restore local files
+    remote.posts=mergeFilesFromLocal(remote.posts);
     applyData(remote);
     lastRemoteSavedAt=remoteSavedAt;
     lastLocalSaveAt=remoteSavedAt;
@@ -1056,7 +1086,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-load().then(()=>startPolling());
+load().then(()=>{startPolling();keepAlive();});
 </script>
 
 
