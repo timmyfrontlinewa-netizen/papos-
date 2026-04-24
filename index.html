@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_11.html -->
+<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_12.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -189,7 +189,7 @@ tr:hover .drag-handle{opacity:1;}
   <div class="logo">PAPOS<span>Контент-план</span></div>
   <div style="display:flex;gap:7px;align-items:center;">
     <span id="sync-status" style="font-size: 11px; color: var(--s-ready); min-width: 110px; text-align: right;"></span>
-    <button class="icon-btn" id="undo-btn" onclick="undo()" title="Ctrl+Z" style="opacity: 1;">↩ Отменить</button>
+    <button class="icon-btn" id="undo-btn" onclick="undo()" title="Ctrl+Z" style="opacity:0.35;" disabled="">↩ Отменить</button>
     <button class="icon-btn" onclick="openSettings()">⚙ Настройки</button>
     <button class="icon-btn" style="font-size:11px;opacity:0.35;" onclick="resetData()">↺ сброс</button>
   </div>
@@ -551,27 +551,7 @@ tr:hover .drag-handle{opacity:1;}
 
     <div class="settings-section">
       <div class="settings-section-title">Рубрики</div>
-      <div class="tag-list" id="cat-list">
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#8b7fd4"></span>
-      Люкс &amp; история
-      <button class="tag-del" onclick="deleteCat(&#39;lux&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#3d9e75"></span>
-      Распаковка
-      <button class="tag-del" onclick="deleteCat(&#39;unbox&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#c98a2a"></span>
-      Процесс
-      <button class="tag-del" onclick="deleteCat(&#39;proc&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#c45c2a"></span>
-      Ликбез
-      <button class="tag-del" onclick="deleteCat(&#39;edu&#39;)" title="Удалить">×</button>
-    </span></div>
+      <div class="tag-list" id="cat-list"></div>
       <div class="tag-add-row">
         <input type="text" id="new-cat-name" placeholder="Название рубрики">
         <input type="color" id="new-cat-color" value="#8b7fd4" title="Цвет">
@@ -583,27 +563,7 @@ tr:hover .drag-handle{opacity:1;}
 
     <div class="settings-section">
       <div class="settings-section-title">Статусы</div>
-      <div class="tag-list" id="status-list">
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#5a5650"></span>
-      Идея
-      <button class="tag-del" onclick="deleteStatus(&#39;idea&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#c98a2a"></span>
-      В работе
-      <button class="tag-del" onclick="deleteStatus(&#39;wip&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#3d9e75"></span>
-      Готово
-      <button class="tag-del" onclick="deleteStatus(&#39;ready&#39;)" title="Удалить">×</button>
-    </span>
-    <span class="tag-item">
-      <span class="tag-swatch" style="background:#8b7fd4"></span>
-      Опубликовано
-      <button class="tag-del" onclick="deleteStatus(&#39;pub&#39;)" title="Удалить">×</button>
-    </span></div>
+      <div class="tag-list" id="status-list"></div>
       <div class="tag-add-row">
         <input type="text" id="new-status-name" placeholder="Название статуса">
         <input type="color" id="new-status-color" value="#c9a84c" title="Цвет">
@@ -699,26 +659,27 @@ calYear=now.getFullYear(); calMonth=now.getMonth();
 
 /* ===== SUPABASE CONFIG ===== */
 const SB_URL='https://jluvsdgozaefknzqjnxp.supabase.co';
-const SB_KEY='sb_publishable_DGtOyU_AFZ5G7jgPF-mCBA_Cn6XJQWs';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsdXZzZGdvemFlZmtuenFqbnhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTA2NTQsImV4cCI6MjA5MjU4NjY1NH0.9RN_z_DS3WHR7urn7nBViD-woOiBzpqpxL1X3iDID6M';
 const SB_HEADERS={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'};
 
 async function sbFetch(){
   try{
     const r=await fetch(SB_URL+'/rest/v1/plan_data?key=eq.main',{headers:SB_HEADERS});
-    if(!r.ok)return null;
+    if(!r.ok){const t=await r.text();console.error('sbFetch error:',r.status,t);return null;}
     const rows=await r.json();
     return rows&&rows.length>0?rows[0].value:null;
-  }catch(e){return null;}
+  }catch(e){console.error('sbFetch exception:',e);return null;}
 }
 
 async function sbSave(data){
   try{
-    await fetch(SB_URL+'/rest/v1/plan_data',{
+    const r=await fetch(SB_URL+'/rest/v1/plan_data',{
       method:'POST',
       headers:SB_HEADERS,
       body:JSON.stringify({key:'main',value:data,updated_at:new Date().toISOString()})
     });
-  }catch(e){}
+    if(!r.ok){const t=await r.text();console.error('sbSave error:',r.status,t);}
+  }catch(e){console.error('sbSave exception:',e);}
 }
 
 /* ===== STORAGE ===== */
