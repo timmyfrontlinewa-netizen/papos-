@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_15.html -->
+<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_16.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -597,30 +597,40 @@ function setLocalData(data){
 }
 
 async function load(){
-  setSyncStatus('⟳ загрузка…','var(--muted)');
-  const remote=await sbFetch();
-  if(remote&&remote.posts){
-    applyData(remote);
-    lastRemoteSavedAt=remote.savedAt||0;
-    lastLocalSaveAt=remote.savedAt||0;
-    setLocalData({...remote});
-    setSyncStatus('✓ загружено','var(--s-ready)');
-    setTimeout(()=>setSyncStatus(''),2000);
-    return;
-  }
-  // fallback to localStorage
+  // 1. Show localStorage data IMMEDIATELY — no waiting
   const local=getLocalData();
   if(local&&local.posts){
     applyData(local);
-    setSyncStatus('⚠ офлайн','var(--s-wip)');
-    return;
+    lastLocalSaveAt=local.savedAt||0;
+    render();renderCal();
+  } else {
+    // Fresh start — use seed data
+    posts=SEED.map((p,i)=>({...p,id:i+1}));
+    nextId=SEED.length+1;
+    cats=JSON.parse(JSON.stringify(DEFAULT_CATS));
+    statuses=JSON.parse(JSON.stringify(DEFAULT_STATUSES));
+    render();renderCal();
   }
-  // fresh start
-  posts=SEED.map((p,i)=>({...p,id:i+1}));
-  nextId=SEED.length+1;
-  cats=JSON.parse(JSON.stringify(DEFAULT_CATS));
-  statuses=JSON.parse(JSON.stringify(DEFAULT_STATUSES));
-  setSyncStatus('');
+
+  // 2. Fetch Supabase in background — update only if newer
+  setSyncStatus('⟳','var(--muted)');
+  const remote=await sbFetch();
+  if(remote&&remote.posts){
+    const remoteSavedAt=remote.savedAt||0;
+    if(remoteSavedAt>lastLocalSaveAt){
+      applyData(remote);
+      lastRemoteSavedAt=remoteSavedAt;
+      lastLocalSaveAt=remoteSavedAt;
+      setLocalData(remote);
+      render();renderCal();
+      setSyncStatus('↓ обновлено','var(--s-ready)');
+    } else {
+      setSyncStatus('✓','var(--s-ready)');
+    }
+  } else {
+    setSyncStatus('⚠ офлайн','var(--s-wip)');
+  }
+  setTimeout(()=>setSyncStatus(''),2000);
 }
 
 function applyData(d){
@@ -1046,7 +1056,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-load().then(()=>{render();renderCal();startPolling();});
+load().then(()=>startPolling());
 </script>
 
 
