@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_17.html -->
+<!-- saved from url=(0059)file:///C:/Users/en-93/Downloads/papos_content_plan_18.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -207,10 +207,10 @@ tr:hover .drag-handle{opacity:1;}
 </header>
 
 <div class="stats-row">
-  <div class="stat"><div class="stat-val" id="s-total">18</div><div class="stat-label">Всего</div></div>
-  <div class="stat"><div class="stat-val" id="s-ready">5</div><div class="stat-label">Готово</div></div>
-  <div class="stat"><div class="stat-val" id="s-wip">0</div><div class="stat-label">В работе</div></div>
-  <div class="stat"><div class="stat-val" id="s-pub">0</div><div class="stat-label">Опубликовано</div></div>
+  <div class="stat"><div class="stat-val" id="s-total">17</div><div class="stat-label">Всего</div></div>
+  <div class="stat"><div class="stat-val" id="s-ready">0</div><div class="stat-label">Готово</div></div>
+  <div class="stat"><div class="stat-val" id="s-wip">3</div><div class="stat-label">В работе</div></div>
+  <div class="stat"><div class="stat-val" id="s-pub">1</div><div class="stat-label">Опубликовано</div></div>
 </div>
 
 <div class="legend" id="legend"><div class="legend-item"><span class="ldot" style="background:#5a5650"></span>Идея</div><div class="legend-item"><span class="ldot" style="background:#c98a2a"></span>В работе</div><div class="legend-item"><span class="ldot" style="background:#3d9e75"></span>Готово</div><div class="legend-item"><span class="ldot" style="background:#8b7fd4"></span>Опубликовано</div></div>
@@ -242,17 +242,27 @@ tr:hover .drag-handle{opacity:1;}
     <tbody id="tbody"><tr draggable="true" data-id="1" ondragstart="listDragStart(event,1)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,1)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
       <td class="td-num">1</td>
-      <td><input type="date" class="date-inp" value="2025-05-01" onblur="updateDate(1,this.value)"></td>
+      <td><input type="date" class="date-inp" value="2026-04-27" onblur="updateDate(1,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="Birkin обогнала золото и акции" onchange="updateTopic(1,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#3d9e75;border-color:rgba(61,158,117,0.35)" onclick="openStatusPopup(event,1)">Готово ▾</button></td>
-      <td><button class="act-btn open-post" onclick="openDrawer(1)">›</button></td>
+      <td><button class="status-pill" style="color:#c98a2a;border-color:rgba(201,138,42,0.35)" onclick="openStatusPopup(event,1)">В работе ▾</button></td>
+      <td><button class="act-btn open-post hc" onclick="openDrawer(1)">›</button></td>
       <td><button class="act-btn del" onclick="delPost(1)">×</button></td>
-    </tr><tr draggable="true" data-id="2" ondragstart="listDragStart(event,2)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,2)" ondragend="listDragEnd(event)">
+    </tr><tr draggable="true" data-id="4" ondragstart="listDragStart(event,4)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,4)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
       <td class="td-num">2</td>
-      <td><input type="date" class="date-inp" value="2025-05-03" onblur="updateDate(2,this.value)"></td>
+      <td><input type="date" class="date-inp" value="2026-04-26" onblur="updateDate(4,this.value)"></td>
+      <td class="td-cat"><span class="cat-badge" style="background:rgba(196,92,42,0.12);color:#c45c2a"><span class="cat-dot" style="background:#c45c2a"></span>Ликбез</span></td>
+      <td><input class="topic-inp" value="Buttero vs Pueblo: в чём разница" onchange="updateTopic(4,this.value)"></td>
+      <td class="td-fmt"><span class="fmt-badge">Карусель</span></td>
+      <td><button class="status-pill" style="color:#8b7fd4;border-color:rgba(139,127,212,0.35)" onclick="openStatusPopup(event,4)">Опубликовано ▾</button></td>
+      <td><button class="act-btn open-post hc" onclick="openDrawer(4)">›</button></td>
+      <td><button class="act-btn del" onclick="delPost(4)">×</button></td>
+    </tr><tr draggable="true" data-id="2" ondragstart="listDragStart(event,2)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,2)" ondragend="listDragEnd(event)">
+      <td><span class="drag-handle">⠿</span></td>
+      <td class="td-num">3</td>
+      <td><input type="date" class="date-inp" value="2026-04-29" onblur="updateDate(2,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(201,138,42,0.12);color:#c98a2a"><span class="cat-dot" style="background:#c98a2a"></span>Процесс</span></td>
       <td><input class="topic-inp" value="Макро: седельный шов крупным планом" onchange="updateTopic(2,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -261,28 +271,18 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(2)">×</button></td>
     </tr><tr draggable="true" data-id="3" ondragstart="listDragStart(event,3)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,3)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">3</td>
-      <td><input type="date" class="date-inp" value="2025-05-05" onblur="updateDate(3,this.value)"></td>
+      <td class="td-num">4</td>
+      <td><input type="date" class="date-inp" value="2026-04-30" onblur="updateDate(3,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="Чтобы купить Birkin — нужно сначала потратить" onchange="updateTopic(3,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#3d9e75;border-color:rgba(61,158,117,0.35)" onclick="openStatusPopup(event,3)">Готово ▾</button></td>
-      <td><button class="act-btn open-post" onclick="openDrawer(3)">›</button></td>
+      <td><button class="status-pill" style="color:#c98a2a;border-color:rgba(201,138,42,0.35)" onclick="openStatusPopup(event,3)">В работе ▾</button></td>
+      <td><button class="act-btn open-post hc" onclick="openDrawer(3)">›</button></td>
       <td><button class="act-btn del" onclick="delPost(3)">×</button></td>
-    </tr><tr draggable="true" data-id="4" ondragstart="listDragStart(event,4)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,4)" ondragend="listDragEnd(event)">
-      <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">4</td>
-      <td><input type="date" class="date-inp" value="2025-05-07" onblur="updateDate(4,this.value)"></td>
-      <td class="td-cat"><span class="cat-badge" style="background:rgba(196,92,42,0.12);color:#c45c2a"><span class="cat-dot" style="background:#c45c2a"></span>Ликбез</span></td>
-      <td><input class="topic-inp" value="Buttero vs Pueblo: в чём разница" onchange="updateTopic(4,this.value)"></td>
-      <td class="td-fmt"><span class="fmt-badge">Карусель</span></td>
-      <td><button class="status-pill" style="color:#5a5650;border-color:rgba(90,86,80,0.35)" onclick="openStatusPopup(event,4)">Идея ▾</button></td>
-      <td><button class="act-btn open-post" onclick="openDrawer(4)">›</button></td>
-      <td><button class="act-btn del" onclick="delPost(4)">×</button></td>
     </tr><tr draggable="true" data-id="5" ondragstart="listDragStart(event,5)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,5)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
       <td class="td-num">5</td>
-      <td><input type="date" class="date-inp" value="2025-05-08" onblur="updateDate(5,this.value)"></td>
+      <td><input type="date" class="date-inp" value="2026-05-01" onblur="updateDate(5,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(61,158,117,0.12);color:#3d9e75"><span class="cat-dot" style="background:#3d9e75"></span>Распаковка</span></td>
       <td><input class="topic-inp" value="Распаковка кошелька на Buttero" onchange="updateTopic(5,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -292,27 +292,17 @@ tr:hover .drag-handle{opacity:1;}
     </tr><tr draggable="true" data-id="6" ondragstart="listDragStart(event,6)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,6)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
       <td class="td-num">6</td>
-      <td><input type="date" class="date-inp" value="2025-05-10" onblur="updateDate(6,this.value)"></td>
+      <td><input type="date" class="date-inp" value="2026-05-04" onblur="updateDate(6,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="Goyard: бренд, который намеренно скрывается" onchange="updateTopic(6,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#3d9e75;border-color:rgba(61,158,117,0.35)" onclick="openStatusPopup(event,6)">Готово ▾</button></td>
-      <td><button class="act-btn open-post" onclick="openDrawer(6)">›</button></td>
+      <td><button class="status-pill" style="color:#c98a2a;border-color:rgba(201,138,42,0.35)" onclick="openStatusPopup(event,6)">В работе ▾</button></td>
+      <td><button class="act-btn open-post hc" onclick="openDrawer(6)">›</button></td>
       <td><button class="act-btn del" onclick="delPost(6)">×</button></td>
-    </tr><tr draggable="true" data-id="7" ondragstart="listDragStart(event,7)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,7)" ondragend="listDragEnd(event)">
-      <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">7</td>
-      <td><input type="date" class="date-inp" value="2025-05-12" onblur="updateDate(7,this.value)"></td>
-      <td class="td-cat"><span class="cat-badge" style="background:rgba(201,138,42,0.12);color:#c98a2a"><span class="cat-dot" style="background:#c98a2a"></span>Процесс</span></td>
-      <td><input class="topic-inp" value="Макро: покраска торца кожи" onchange="updateTopic(7,this.value)"></td>
-      <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#5a5650;border-color:rgba(90,86,80,0.35)" onclick="openStatusPopup(event,7)">Идея ▾</button></td>
-      <td><button class="act-btn open-post" onclick="openDrawer(7)">›</button></td>
-      <td><button class="act-btn del" onclick="delPost(7)">×</button></td>
     </tr><tr draggable="true" data-id="8" ondragstart="listDragStart(event,8)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,8)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">8</td>
-      <td><input type="date" class="date-inp" value="2025-05-14" onblur="updateDate(8,this.value)"></td>
+      <td class="td-num">7</td>
+      <td><input type="date" class="date-inp" value="2026-05-03" onblur="updateDate(8,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(196,92,42,0.12);color:#c45c2a"><span class="cat-dot" style="background:#c45c2a"></span>Ликбез</span></td>
       <td><input class="topic-inp" value="5 отличий ручной работы от фабрики" onchange="updateTopic(8,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Карусель</span></td>
@@ -321,18 +311,18 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(8)">×</button></td>
     </tr><tr draggable="true" data-id="9" ondragstart="listDragStart(event,9)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,9)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">9</td>
-      <td><input type="date" class="date-inp" value="2025-05-15" onblur="updateDate(9,this.value)"></td>
+      <td class="td-num">8</td>
+      <td><input type="date" class="date-inp" value="2026-05-07" onblur="updateDate(9,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="Walmart выпустил Birkin за $60" onchange="updateTopic(9,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#3d9e75;border-color:rgba(61,158,117,0.35)" onclick="openStatusPopup(event,9)">Готово ▾</button></td>
+      <td><button class="status-pill" style="color:#5a5650;border-color:rgba(90,86,80,0.35)" onclick="openStatusPopup(event,9)">Идея ▾</button></td>
       <td><button class="act-btn open-post" onclick="openDrawer(9)">›</button></td>
       <td><button class="act-btn del" onclick="delPost(9)">×</button></td>
     </tr><tr draggable="true" data-id="10" ondragstart="listDragStart(event,10)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,10)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">10</td>
-      <td><input type="date" class="date-inp" value="2025-05-17" onblur="updateDate(10,this.value)"></td>
+      <td class="td-num">9</td>
+      <td><input type="date" class="date-inp" value="2026-05-09" onblur="updateDate(10,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(61,158,117,0.12);color:#3d9e75"><span class="cat-dot" style="background:#3d9e75"></span>Распаковка</span></td>
       <td><input class="topic-inp" value="Распаковка ремня на коже Epsom" onchange="updateTopic(10,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -341,18 +331,18 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(10)">×</button></td>
     </tr><tr draggable="true" data-id="11" ondragstart="listDragStart(event,11)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,11)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">11</td>
-      <td><input type="date" class="date-inp" value="2025-05-19" onblur="updateDate(11,this.value)"></td>
+      <td class="td-num">10</td>
+      <td><input type="date" class="date-inp" value="2026-05-11" onblur="updateDate(11,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="LV поднимает цены каждый год" onchange="updateTopic(11,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
-      <td><button class="status-pill" style="color:#3d9e75;border-color:rgba(61,158,117,0.35)" onclick="openStatusPopup(event,11)">Готово ▾</button></td>
+      <td><button class="status-pill" style="color:#5a5650;border-color:rgba(90,86,80,0.35)" onclick="openStatusPopup(event,11)">Идея ▾</button></td>
       <td><button class="act-btn open-post" onclick="openDrawer(11)">›</button></td>
       <td><button class="act-btn del" onclick="delPost(11)">×</button></td>
     </tr><tr draggable="true" data-id="12" ondragstart="listDragStart(event,12)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,12)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">12</td>
-      <td><input type="date" class="date-inp" value="2025-05-21" onblur="updateDate(12,this.value)"></td>
+      <td class="td-num">11</td>
+      <td><input type="date" class="date-inp" value="2026-05-13" onblur="updateDate(12,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(201,138,42,0.12);color:#c98a2a"><span class="cat-dot" style="background:#c98a2a"></span>Процесс</span></td>
       <td><input class="topic-inp" value="Макро: тиснение логотипа PAPOS" onchange="updateTopic(12,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -361,8 +351,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(12)">×</button></td>
     </tr><tr draggable="true" data-id="13" ondragstart="listDragStart(event,13)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,13)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">13</td>
-      <td><input type="date" class="date-inp" value="2025-05-22" onblur="updateDate(13,this.value)"></td>
+      <td class="td-num">12</td>
+      <td><input type="date" class="date-inp" value="2026-05-15" onblur="updateDate(13,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(196,92,42,0.12);color:#c45c2a"><span class="cat-dot" style="background:#c45c2a"></span>Ликбез</span></td>
       <td><input class="topic-inp" value="Что такое WAX кожа и зачем она нужна" onchange="updateTopic(13,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Карусель</span></td>
@@ -371,8 +361,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(13)">×</button></td>
     </tr><tr draggable="true" data-id="14" ondragstart="listDragStart(event,14)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,14)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">14</td>
-      <td><input type="date" class="date-inp" value="2025-05-24" onblur="updateDate(14,this.value)"></td>
+      <td class="td-num">13</td>
+      <td><input type="date" class="date-inp" value="2026-05-17" onblur="updateDate(14,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(61,158,117,0.12);color:#3d9e75"><span class="cat-dot" style="background:#3d9e75"></span>Распаковка</span></td>
       <td><input class="topic-inp" value="Распаковка кардхолдера на Togo" onchange="updateTopic(14,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -381,8 +371,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(14)">×</button></td>
     </tr><tr draggable="true" data-id="15" ondragstart="listDragStart(event,15)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,15)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">15</td>
-      <td><input type="date" class="date-inp" value="2025-05-26" onblur="updateDate(15,this.value)"></td>
+      <td class="td-num">14</td>
+      <td><input type="date" class="date-inp" value="2026-05-19" onblur="updateDate(15,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(139,127,212,0.12);color:#8b7fd4"><span class="cat-dot" style="background:#8b7fd4"></span>Люкс &amp; история</span></td>
       <td><input class="topic-inp" value="История Hermès: от седельной до империи" onchange="updateTopic(15,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -391,8 +381,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(15)">×</button></td>
     </tr><tr draggable="true" data-id="16" ondragstart="listDragStart(event,16)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,16)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">16</td>
-      <td><input type="date" class="date-inp" value="2025-05-28" onblur="updateDate(16,this.value)"></td>
+      <td class="td-num">15</td>
+      <td><input type="date" class="date-inp" value="2026-05-21" onblur="updateDate(16,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(201,138,42,0.12);color:#c98a2a"><span class="cat-dot" style="background:#c98a2a"></span>Процесс</span></td>
       <td><input class="topic-inp" value="Макро: разметка под шов, инструменты крупно" onchange="updateTopic(16,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -401,8 +391,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(16)">×</button></td>
     </tr><tr draggable="true" data-id="17" ondragstart="listDragStart(event,17)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,17)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">17</td>
-      <td><input type="date" class="date-inp" value="2025-05-29" onblur="updateDate(17,this.value)"></td>
+      <td class="td-num">16</td>
+      <td><input type="date" class="date-inp" value="2026-05-23" onblur="updateDate(17,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(196,92,42,0.12);color:#c45c2a"><span class="cat-dot" style="background:#c45c2a"></span>Ликбез</span></td>
       <td><input class="topic-inp" value="Седельный шов: почему он не рвётся" onchange="updateTopic(17,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Карусель</span></td>
@@ -411,8 +401,8 @@ tr:hover .drag-handle{opacity:1;}
       <td><button class="act-btn del" onclick="delPost(17)">×</button></td>
     </tr><tr draggable="true" data-id="18" ondragstart="listDragStart(event,18)" ondragover="listDragOver(event)" ondragleave="listDragLeave(event)" ondrop="listDrop(event,18)" ondragend="listDragEnd(event)">
       <td><span class="drag-handle">⠿</span></td>
-      <td class="td-num">18</td>
-      <td><input type="date" class="date-inp" value="2025-05-30" onblur="updateDate(18,this.value)"></td>
+      <td class="td-num">17</td>
+      <td><input type="date" class="date-inp" value="2026-05-25" onblur="updateDate(18,this.value)"></td>
       <td class="td-cat"><span class="cat-badge" style="background:rgba(61,158,117,0.12);color:#3d9e75"><span class="cat-dot" style="background:#3d9e75"></span>Распаковка</span></td>
       <td><input class="topic-inp" value="Обзор сумки — итог месяца" onchange="updateTopic(18,this.value)"></td>
       <td class="td-fmt"><span class="fmt-badge">Рилс</span></td>
@@ -433,7 +423,7 @@ tr:hover .drag-handle{opacity:1;}
     </div>
     <div class="cal-title" id="cal-title">Апрель 2026</div>
   </div>
-  <div class="cal-grid" id="cal-grid"><div class="cal-dow">Пн</div><div class="cal-dow">Вт</div><div class="cal-dow">Ср</div><div class="cal-dow">Чт</div><div class="cal-dow">Пт</div><div class="cal-dow">Сб</div><div class="cal-dow">Вс</div><div class="cal-day other-m"><div class="cal-day-num">30</div></div><div class="cal-day other-m"><div class="cal-day-num">31</div></div><div class="cal-day" data-date="2026-04-01" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-01&#39;)"><div class="cal-day-num">1</div><button class="cal-add" onclick="openModal(&#39;2026-04-01&#39;)">+</button></div><div class="cal-day" data-date="2026-04-02" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-02&#39;)"><div class="cal-day-num">2</div><button class="cal-add" onclick="openModal(&#39;2026-04-02&#39;)">+</button></div><div class="cal-day" data-date="2026-04-03" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-03&#39;)"><div class="cal-day-num">3</div><button class="cal-add" onclick="openModal(&#39;2026-04-03&#39;)">+</button></div><div class="cal-day" data-date="2026-04-04" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-04&#39;)"><div class="cal-day-num">4</div><button class="cal-add" onclick="openModal(&#39;2026-04-04&#39;)">+</button></div><div class="cal-day" data-date="2026-04-05" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-05&#39;)"><div class="cal-day-num">5</div><button class="cal-add" onclick="openModal(&#39;2026-04-05&#39;)">+</button></div><div class="cal-day" data-date="2026-04-06" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-06&#39;)"><div class="cal-day-num">6</div><button class="cal-add" onclick="openModal(&#39;2026-04-06&#39;)">+</button></div><div class="cal-day" data-date="2026-04-07" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-07&#39;)"><div class="cal-day-num">7</div><button class="cal-add" onclick="openModal(&#39;2026-04-07&#39;)">+</button></div><div class="cal-day" data-date="2026-04-08" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-08&#39;)"><div class="cal-day-num">8</div><button class="cal-add" onclick="openModal(&#39;2026-04-08&#39;)">+</button></div><div class="cal-day" data-date="2026-04-09" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-09&#39;)"><div class="cal-day-num">9</div><button class="cal-add" onclick="openModal(&#39;2026-04-09&#39;)">+</button></div><div class="cal-day" data-date="2026-04-10" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-10&#39;)"><div class="cal-day-num">10</div><button class="cal-add" onclick="openModal(&#39;2026-04-10&#39;)">+</button></div><div class="cal-day" data-date="2026-04-11" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-11&#39;)"><div class="cal-day-num">11</div><button class="cal-add" onclick="openModal(&#39;2026-04-11&#39;)">+</button></div><div class="cal-day" data-date="2026-04-12" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-12&#39;)"><div class="cal-day-num">12</div><button class="cal-add" onclick="openModal(&#39;2026-04-12&#39;)">+</button></div><div class="cal-day" data-date="2026-04-13" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-13&#39;)"><div class="cal-day-num">13</div><button class="cal-add" onclick="openModal(&#39;2026-04-13&#39;)">+</button></div><div class="cal-day" data-date="2026-04-14" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-14&#39;)"><div class="cal-day-num">14</div><button class="cal-add" onclick="openModal(&#39;2026-04-14&#39;)">+</button></div><div class="cal-day" data-date="2026-04-15" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-15&#39;)"><div class="cal-day-num">15</div><button class="cal-add" onclick="openModal(&#39;2026-04-15&#39;)">+</button></div><div class="cal-day" data-date="2026-04-16" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-16&#39;)"><div class="cal-day-num">16</div><button class="cal-add" onclick="openModal(&#39;2026-04-16&#39;)">+</button></div><div class="cal-day" data-date="2026-04-17" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-17&#39;)"><div class="cal-day-num">17</div><button class="cal-add" onclick="openModal(&#39;2026-04-17&#39;)">+</button></div><div class="cal-day" data-date="2026-04-18" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-18&#39;)"><div class="cal-day-num">18</div><button class="cal-add" onclick="openModal(&#39;2026-04-18&#39;)">+</button></div><div class="cal-day" data-date="2026-04-19" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-19&#39;)"><div class="cal-day-num">19</div><button class="cal-add" onclick="openModal(&#39;2026-04-19&#39;)">+</button></div><div class="cal-day" data-date="2026-04-20" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-20&#39;)"><div class="cal-day-num">20</div><button class="cal-add" onclick="openModal(&#39;2026-04-20&#39;)">+</button></div><div class="cal-day" data-date="2026-04-21" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-21&#39;)"><div class="cal-day-num">21</div><button class="cal-add" onclick="openModal(&#39;2026-04-21&#39;)">+</button></div><div class="cal-day" data-date="2026-04-22" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-22&#39;)"><div class="cal-day-num">22</div><button class="cal-add" onclick="openModal(&#39;2026-04-22&#39;)">+</button></div><div class="cal-day" data-date="2026-04-23" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-23&#39;)"><div class="cal-day-num">23</div><button class="cal-add" onclick="openModal(&#39;2026-04-23&#39;)">+</button></div><div class="cal-day today-cell" data-date="2026-04-24" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-24&#39;)"><div class="cal-day-num">24</div><button class="cal-add" onclick="openModal(&#39;2026-04-24&#39;)">+</button></div><div class="cal-day" data-date="2026-04-25" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-25&#39;)"><div class="cal-day-num">25</div><button class="cal-add" onclick="openModal(&#39;2026-04-25&#39;)">+</button></div><div class="cal-day" data-date="2026-04-26" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-26&#39;)"><div class="cal-day-num">26</div><button class="cal-add" onclick="openModal(&#39;2026-04-26&#39;)">+</button></div><div class="cal-day" data-date="2026-04-27" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-27&#39;)"><div class="cal-day-num">27</div><button class="cal-add" onclick="openModal(&#39;2026-04-27&#39;)">+</button></div><div class="cal-day" data-date="2026-04-28" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-28&#39;)"><div class="cal-day-num">28</div><button class="cal-add" onclick="openModal(&#39;2026-04-28&#39;)">+</button></div><div class="cal-day" data-date="2026-04-29" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-29&#39;)"><div class="cal-day-num">29</div><button class="cal-add" onclick="openModal(&#39;2026-04-29&#39;)">+</button></div><div class="cal-day" data-date="2026-04-30" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-30&#39;)"><div class="cal-day-num">30</div><button class="cal-add" onclick="openModal(&#39;2026-04-30&#39;)">+</button></div><div class="cal-day other-m"><div class="cal-day-num">1</div></div><div class="cal-day other-m"><div class="cal-day-num">2</div></div><div class="cal-day other-m"><div class="cal-day-num">3</div></div></div>
+  <div class="cal-grid" id="cal-grid"><div class="cal-dow">Пн</div><div class="cal-dow">Вт</div><div class="cal-dow">Ср</div><div class="cal-dow">Чт</div><div class="cal-dow">Пт</div><div class="cal-dow">Сб</div><div class="cal-dow">Вс</div><div class="cal-day other-m"><div class="cal-day-num">30</div></div><div class="cal-day other-m"><div class="cal-day-num">31</div></div><div class="cal-day" data-date="2026-04-01" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-01&#39;)"><div class="cal-day-num">1</div><button class="cal-add" onclick="openModal(&#39;2026-04-01&#39;)">+</button></div><div class="cal-day" data-date="2026-04-02" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-02&#39;)"><div class="cal-day-num">2</div><button class="cal-add" onclick="openModal(&#39;2026-04-02&#39;)">+</button></div><div class="cal-day" data-date="2026-04-03" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-03&#39;)"><div class="cal-day-num">3</div><button class="cal-add" onclick="openModal(&#39;2026-04-03&#39;)">+</button></div><div class="cal-day" data-date="2026-04-04" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-04&#39;)"><div class="cal-day-num">4</div><button class="cal-add" onclick="openModal(&#39;2026-04-04&#39;)">+</button></div><div class="cal-day" data-date="2026-04-05" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-05&#39;)"><div class="cal-day-num">5</div><button class="cal-add" onclick="openModal(&#39;2026-04-05&#39;)">+</button></div><div class="cal-day" data-date="2026-04-06" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-06&#39;)"><div class="cal-day-num">6</div><button class="cal-add" onclick="openModal(&#39;2026-04-06&#39;)">+</button></div><div class="cal-day" data-date="2026-04-07" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-07&#39;)"><div class="cal-day-num">7</div><button class="cal-add" onclick="openModal(&#39;2026-04-07&#39;)">+</button></div><div class="cal-day" data-date="2026-04-08" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-08&#39;)"><div class="cal-day-num">8</div><button class="cal-add" onclick="openModal(&#39;2026-04-08&#39;)">+</button></div><div class="cal-day" data-date="2026-04-09" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-09&#39;)"><div class="cal-day-num">9</div><button class="cal-add" onclick="openModal(&#39;2026-04-09&#39;)">+</button></div><div class="cal-day" data-date="2026-04-10" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-10&#39;)"><div class="cal-day-num">10</div><button class="cal-add" onclick="openModal(&#39;2026-04-10&#39;)">+</button></div><div class="cal-day" data-date="2026-04-11" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-11&#39;)"><div class="cal-day-num">11</div><button class="cal-add" onclick="openModal(&#39;2026-04-11&#39;)">+</button></div><div class="cal-day" data-date="2026-04-12" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-12&#39;)"><div class="cal-day-num">12</div><button class="cal-add" onclick="openModal(&#39;2026-04-12&#39;)">+</button></div><div class="cal-day" data-date="2026-04-13" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-13&#39;)"><div class="cal-day-num">13</div><button class="cal-add" onclick="openModal(&#39;2026-04-13&#39;)">+</button></div><div class="cal-day" data-date="2026-04-14" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-14&#39;)"><div class="cal-day-num">14</div><button class="cal-add" onclick="openModal(&#39;2026-04-14&#39;)">+</button></div><div class="cal-day" data-date="2026-04-15" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-15&#39;)"><div class="cal-day-num">15</div><button class="cal-add" onclick="openModal(&#39;2026-04-15&#39;)">+</button></div><div class="cal-day" data-date="2026-04-16" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-16&#39;)"><div class="cal-day-num">16</div><button class="cal-add" onclick="openModal(&#39;2026-04-16&#39;)">+</button></div><div class="cal-day" data-date="2026-04-17" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-17&#39;)"><div class="cal-day-num">17</div><button class="cal-add" onclick="openModal(&#39;2026-04-17&#39;)">+</button></div><div class="cal-day" data-date="2026-04-18" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-18&#39;)"><div class="cal-day-num">18</div><button class="cal-add" onclick="openModal(&#39;2026-04-18&#39;)">+</button></div><div class="cal-day" data-date="2026-04-19" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-19&#39;)"><div class="cal-day-num">19</div><button class="cal-add" onclick="openModal(&#39;2026-04-19&#39;)">+</button></div><div class="cal-day" data-date="2026-04-20" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-20&#39;)"><div class="cal-day-num">20</div><button class="cal-add" onclick="openModal(&#39;2026-04-20&#39;)">+</button></div><div class="cal-day" data-date="2026-04-21" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-21&#39;)"><div class="cal-day-num">21</div><button class="cal-add" onclick="openModal(&#39;2026-04-21&#39;)">+</button></div><div class="cal-day" data-date="2026-04-22" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-22&#39;)"><div class="cal-day-num">22</div><button class="cal-add" onclick="openModal(&#39;2026-04-22&#39;)">+</button></div><div class="cal-day" data-date="2026-04-23" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-23&#39;)"><div class="cal-day-num">23</div><button class="cal-add" onclick="openModal(&#39;2026-04-23&#39;)">+</button></div><div class="cal-day" data-date="2026-04-24" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-24&#39;)"><div class="cal-day-num">24</div><button class="cal-add" onclick="openModal(&#39;2026-04-24&#39;)">+</button></div><div class="cal-day" data-date="2026-04-25" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-25&#39;)"><div class="cal-day-num">25</div><button class="cal-add" onclick="openModal(&#39;2026-04-25&#39;)">+</button></div><div class="cal-day today-cell" data-date="2026-04-26" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-26&#39;)"><div class="cal-day-num">26</div><div class="cal-post" style="background:rgba(196,92,42,0.15);color:#c45c2a" draggable="true" data-id="4" ondragstart="calDragStart(event,4)" ondragend="calDragEnd(event)" onclick="openDrawer(4)" title="Buttero vs Pueblo: в чём разница">Buttero vs Pueblo: в чём разница</div><button class="cal-add" onclick="openModal(&#39;2026-04-26&#39;)">+</button></div><div class="cal-day" data-date="2026-04-27" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-27&#39;)"><div class="cal-day-num">27</div><div class="cal-post" style="background:rgba(139,127,212,0.15);color:#8b7fd4" draggable="true" data-id="1" ondragstart="calDragStart(event,1)" ondragend="calDragEnd(event)" onclick="openDrawer(1)" title="Birkin обогнала золото и акции">Birkin обогнала золото и акции</div><button class="cal-add" onclick="openModal(&#39;2026-04-27&#39;)">+</button></div><div class="cal-day" data-date="2026-04-28" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-28&#39;)"><div class="cal-day-num">28</div><button class="cal-add" onclick="openModal(&#39;2026-04-28&#39;)">+</button></div><div class="cal-day" data-date="2026-04-29" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-29&#39;)"><div class="cal-day-num">29</div><div class="cal-post" style="background:rgba(201,138,42,0.15);color:#c98a2a" draggable="true" data-id="2" ondragstart="calDragStart(event,2)" ondragend="calDragEnd(event)" onclick="openDrawer(2)" title="Макро: седельный шов крупным планом">Макро: седельный шов крупным планом</div><button class="cal-add" onclick="openModal(&#39;2026-04-29&#39;)">+</button></div><div class="cal-day" data-date="2026-04-30" ondragover="calDragOver(event)" ondragleave="calDragLeave(event)" ondrop="calDrop(event,&#39;2026-04-30&#39;)"><div class="cal-day-num">30</div><div class="cal-post" style="background:rgba(139,127,212,0.15);color:#8b7fd4" draggable="true" data-id="3" ondragstart="calDragStart(event,3)" ondragend="calDragEnd(event)" onclick="openDrawer(3)" title="Чтобы купить Birkin — нужно сначала потратить">Чтобы купить Birkin — нужно сначала потратить</div><button class="cal-add" onclick="openModal(&#39;2026-04-30&#39;)">+</button></div><div class="cal-day other-m"><div class="cal-day-num">1</div></div><div class="cal-day other-m"><div class="cal-day-num">2</div></div><div class="cal-day other-m"><div class="cal-day-num">3</div></div></div>
 </div>
 
 <!-- NEW POST MODAL -->
@@ -493,6 +483,33 @@ tr:hover .drag-handle{opacity:1;}
     <button class="dh-close" onclick="closeDrawer()">×</button>
   </div>
   <div class="db">
+    <div>
+      <div class="d-lbl">Редактировать</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">
+        <div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Тема</div>
+          <input class="form-inp" type="text" id="d-edit-topic" placeholder="Тема поста">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Дата</div>
+          <input class="form-inp" type="date" id="d-edit-date">
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Рубрика</div>
+          <select class="form-sel" id="d-edit-cat"></select>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Формат</div>
+          <select class="form-sel" id="d-edit-fmt">
+            <option>Рилс</option><option>Карусель</option><option>Фото</option><option>Сторис</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Статус</div>
+        <select class="form-sel" id="d-edit-status"></select>
+      </div>
+    </div>
     <div>
       <div class="d-lbl">Текст поста</div>
       <textarea class="d-textarea" id="d-text" placeholder="Вставь готовый текст или пиши черновик..."></textarea>
@@ -807,7 +824,16 @@ function updateStats(){
 
 /* ===== SORT ===== */
 let sortBy=null,sortDir=1;
-function setSort(col){if(sortBy===col)sortDir*=-1;else{sortBy=col;sortDir=1;}render();}
+function loadSort(){
+  try{const s=localStorage.getItem('papos_sort');if(s){const d=JSON.parse(s);sortBy=d.sortBy||null;sortDir=d.sortDir||1;}}catch(e){}
+}
+function saveSort(){
+  try{localStorage.setItem('papos_sort',JSON.stringify({sortBy,sortDir}));}catch(e){}
+}
+function setSort(col){
+  if(sortBy===col)sortDir*=-1;else{sortBy=col;sortDir=1;}
+  saveSort();render();
+}
 function getSorted(arr){
   if(!sortBy)return arr;
   return [...arr].sort((a,b)=>{
@@ -1007,8 +1033,22 @@ function openDrawer(id){
   drawerId=id;
   drawerFiles=(p.files||[]).map(f=>({...f}));
   const c=getCat(p.cat);
+  // header
   document.getElementById('d-title').textContent=p.topic;
   document.getElementById('d-meta').textContent=fmtDate(p.date)+' · '+c.label+' · '+p.fmt;
+  // edit fields
+  document.getElementById('d-edit-topic').value=p.topic||'';
+  document.getElementById('d-edit-date').value=p.date||'';
+  const catSel=document.getElementById('d-edit-cat');
+  catSel.innerHTML=cats.map(c=>`<option value="${c.id}"${c.id===p.cat?' selected':''}>${c.label}</option>`).join('');
+  const fmtSel=document.getElementById('d-edit-fmt');
+  ['Рилс','Карусель','Фото','Сторис'].forEach(f=>{
+    const o=fmtSel.querySelector(`option[value="${f}"]`)||fmtSel.querySelector(`option`);
+  });
+  fmtSel.value=p.fmt||'Рилс';
+  const stSel=document.getElementById('d-edit-status');
+  stSel.innerHTML=statuses.map(s=>`<option value="${s.id}"${s.id===p.status?' selected':''}>${s.label}</option>`).join('');
+  // text
   document.getElementById('d-text').value=p.text||'';
   document.getElementById('d-hint').textContent='';
   renderFiles();
@@ -1024,8 +1064,16 @@ function saveDrawer(){
   if(!drawerId)return;
   const p=posts.find(x=>x.id===drawerId);if(!p)return;
   snapshot();
+  p.topic=document.getElementById('d-edit-topic').value.trim()||p.topic;
+  p.date=document.getElementById('d-edit-date').value||p.date;
+  p.cat=document.getElementById('d-edit-cat').value||p.cat;
+  p.fmt=document.getElementById('d-edit-fmt').value||p.fmt;
+  p.status=document.getElementById('d-edit-status').value||p.status;
   p.text=document.getElementById('d-text').value;
   p.files=drawerFiles.map(f=>({name:f.name,size:f.size,type:f.type,data:f.data||f.preview||null}));
+  // update drawer header
+  document.getElementById('d-title').textContent=p.topic;
+  document.getElementById('d-meta').textContent=fmtDate(p.date)+' · '+getCat(p.cat).label+' · '+p.fmt;
   save();render();if(view==='cal')renderCal();
   document.getElementById('d-hint').textContent='Сохранено ✓';
   setTimeout(()=>{document.getElementById('d-hint').textContent='';},2000);
@@ -1086,7 +1134,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-load().then(()=>{startPolling();keepAlive();});
+load().then(()=>{loadSort();startPolling();keepAlive();});
 </script>
 
 
