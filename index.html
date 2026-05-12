@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PAPOS — План & Задачи</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧵</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%232563eb%22/><path d=%22M28 53 L43 68 L72 34%22 stroke=%22white%22 stroke-width=%2211%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -14,7 +14,7 @@
   --s-wip:#c98a2a;--s-ready:#3d9e75;
   --danger:#e05050;
   --calendar-filter:invert(0.5);
-  --shadow:0 4px 16px rgba(0,0,0,0.35);
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
 }
 @media(prefers-color-scheme:light){
   :root{
@@ -24,7 +24,7 @@
     --s-wip:#d97706;--s-ready:#16a34a;
     --danger:#dc2626;
     --calendar-filter:none;
-    --shadow:0 4px 16px rgba(0,0,0,0.06);
+    --shadow:0 8px 32px rgba(0,0,0,0.08);
   }
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -37,9 +37,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .list-chev{font-size:16px;color:var(--muted);transition:transform 0.2s;}
 .page-title-wrap.open .list-chev{transform:rotate(180deg);}
 .topbar-right{display:flex;gap:6px;align-items:center;}
-.icon-btn{font-size:12px;padding:5px 13px;border-radius:20px;border:0.5px solid var(--border2);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
-.icon-btn:hover{border-color:var(--gold);color:var(--gold);}
+.icon-btn{font-size:12px;border:0.5px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--surface2);}
 .icon-btn:disabled{opacity:0.3;cursor:default;}
+.circ-btn{width:32px;height:32px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:15px;}
 #sync-status{font-size:11px;color:var(--muted);min-width:100px;text-align:right;}
 
 /* LIST SELECTOR DROPDOWN */
@@ -51,7 +52,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .list-item-dd.active::before{content:'✓';font-size:12px;}
 
 /* QUICK ADD BAR */
-.qa-wrap{display:flex;align-items:center;background:var(--surface);border:0.5px solid var(--border);border-radius:10px;margin:0.5rem 1.5rem 1rem;padding:8px 14px;gap:10px;box-shadow:var(--shadow);transition:border-color 0.15s;}
+.qa-wrap{display:flex;align-items:center;background:var(--surface);border:0.5px solid var(--border);border-radius:10px;margin:0.5rem 1.5rem 1rem;padding:8px 14px;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:border-color 0.15s;}
 .qa-wrap:focus-within{border-color:var(--gold);}
 .qa-plus{color:var(--muted2);font-size:20px;line-height:1;font-weight:300;}
 .qa-inp{flex:1;background:transparent;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;outline:none;}
@@ -91,10 +92,19 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .fgroup{margin-bottom:1.2rem;}
 .fgroup-label{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
 .fchips{display:flex;flex-wrap:wrap;gap:6px;}
-.fchip{font-size:12px;padding:5px 12px;border-radius:18px;border:0.5px solid var(--border2);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.12s;}
-.fchip:hover{border-color:var(--gold);color:var(--gold);}
-.fchip.on{background:var(--gold);color:#fff;border-color:var(--gold);}
+.fchip{
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 14px;
+  border-radius:20px;border:0.5px solid var(--border2);background:var(--surface);
+  color:var(--text);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.12s;
+}
+.fchip:hover{border-color:var(--gold);}
+.fchip.on{background:var(--surface2);border-color:var(--text);}
 .fmodal-btns{display:flex;justify-content:space-between;gap:8px;margin-top:0.5rem;padding-top:1rem;border-top:0.5px solid var(--border);}
+.fmodal-btns button{
+  font-family:'Inter',sans-serif;font-size:13px;padding:6px 16px;border-radius:20px;
+  border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;transition:background 0.1s;
+}
+.fmodal-btns button:hover{background:var(--surface2);}
 
 /* PAGE CONTAINER */
 .page{display:none;padding:0; margin-bottom:2rem;}
@@ -238,18 +248,17 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .sheet-add-btn{width:100%;padding:10px;border-radius:8px;border:1px dashed var(--border2);background:transparent;color:var(--gold);font-family:'Inter';font-size:13px;cursor:pointer;margin-top:10px;transition:all 0.15s;}
 .sheet-add-btn:hover{background:rgba(37,99,235,0.05);border-color:var(--gold);}
 
-/* DRAWER */
-.drawer-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;}
+/* EDIT POPUP (Formally Drawer) */
+.drawer-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;backdrop-filter:blur(2px);}
 .drawer-bg.open{display:block;}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:500px;max-width:96vw;background:var(--surface);border-left:0.5px solid var(--border2);z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.22s cubic-bezier(0.4,0,0.2,1);}
-.drawer.open{transform:translateX(0);}
+.drawer{position:fixed;top:50%;left:50%;transform:translate(-50%,-45%);width:500px;max-width:94vw;max-height:90vh;background:var(--surface);border:0.5px solid var(--border2);border-radius:16px;z-index:201;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);box-shadow:var(--shadow);}
+.drawer.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
 .dh{padding:1.2rem 1.4rem 0.9rem;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-shrink:0;}
 .dh-title{font-family:'Inter',sans-serif;font-size:16px;color:var(--text);line-height:1.4;font-weight:600;letter-spacing:-0.01em;}
 .dh-meta{font-size:11px;color:var(--muted);margin-top:3px;}
 .dh-actions{display:flex;gap:4px;align-items:center;flex-shrink:0;}
 .dh-icon{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:3px 6px;border-radius:5px;transition:color 0.12s;}
 .dh-icon:hover{color:var(--text);}
-.dh-icon.danger:hover{color:var(--danger);}
 .db{flex:1;overflow-y:auto;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.2rem;}
 .d-section-lbl{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
 .d-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
@@ -277,6 +286,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .d-save{font-family:'Inter',sans-serif;font-size:13px;padding:6px 18px;border-radius:20px;border:none;background:var(--gold);color:var(--bg);font-weight:500;cursor:pointer;}
 .d-save:hover{background:var(--gold2);}
 
+/* DELETE BUTTON (Inside Modal) */
+.btn-danger{font-family:'Inter',sans-serif;font-size:13px;padding:5px 14px;border-radius:20px;border:0.5px solid var(--danger);background:transparent;color:var(--danger);cursor:pointer;transition:background 0.15s;}
+.btn-danger:hover{background:rgba(220,38,38,0.1);}
+
 /* SUBTASKS (CHECKLIST) */
 .st-list{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
 .st-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:6px;padding:4px 8px;}
@@ -303,7 +316,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   .filter-row{padding:0.4rem 1rem 0.7rem;}
   .page-inner{padding:0 1rem;}
   .page-title{font-size:20px;}
-  .icon-btn{font-size:12px;padding:5px 11px;}
   #sync-status{display:none;}
   .search-inp{font-size:14px;padding:11px 14px 11px 38px;}
   .search-wrap svg{width:17px;height:17px;left:13px;}
@@ -337,9 +349,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
   <div class="topbar-right">
     <span id="sync-status"></span>
-    <button class="icon-btn" onclick="manualSync()">⟳</button>
-    <button class="icon-btn" id="undo-btn" onclick="undo()" disabled>↩</button>
-    <button class="icon-btn" id="redo-btn" onclick="redo()" disabled>↪</button>
+    <button class="icon-btn circ-btn" onclick="manualSync()">⟳</button>
+    <button class="icon-btn circ-btn" id="undo-btn" onclick="undo()" disabled>↩</button>
+    <button class="icon-btn circ-btn" id="redo-btn" onclick="redo()" disabled>↪</button>
   </div>
 </div>
 
@@ -367,7 +379,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div class="fgroup-label">Категория</div>
       <div class="fchips" id="ff-cats"></div>
     </div>
-    <div class="fgroup">
+    <div class="fgroup" id="fgroup-fmt">
       <div class="fgroup-label">Формат</div>
       <div class="fchips" id="ff-fmts"></div>
     </div>
@@ -464,7 +476,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <span class="nav-label">Дашборд</span>
   </button>
   <button class="nav-item" id="nav-settings" onclick="goPage('settings')">
-    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
     <span class="nav-label">Настройки</span>
   </button>
 </nav>
@@ -488,7 +500,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
       <div class="dh-meta" id="d-meta"></div>
     </div>
     <div class="dh-actions">
-      <button class="dh-icon danger" id="d-del-btn" onclick="deleteFromDrawer()" title="Удалить">🗑</button>
       <button class="dh-icon" onclick="closeDrawer()" title="Закрыть">×</button>
     </div>
   </div>
@@ -538,11 +549,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     </div>
   </div>
   <div class="df">
+    <button class="btn-danger" id="d-del-btn" onclick="deleteFromDrawer()" style="display:none;">Удалить</button>
+    <div style="flex:1"></div>
     <div class="d-done-wrap" onclick="toggleDrawerDone()">
       <div class="chk" id="d-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
       <span>Выполнено</span>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-left:15px;">
       <span class="d-hint" id="d-hint"></span>
       <button class="d-save" onclick="saveDrawer()">Сохранить</button>
     </div>
@@ -561,7 +574,7 @@ let activeListId='content';
 
 let posts=[], nextId=1, cats=[], currentPage='list', searchQuery='';
 let filters={cats:[],fmts:[]};
-let calYear, calMonth, calWeekStart; // calWeekStart = Date object of monday
+let calYear, calMonth, calWeekStart; 
 let calMode = window.innerWidth <= 700 ? 'schedule' : 'month';
 
 let drawerId=null, drawerFiles=[], drawerDoneState=false, drawerSubtasks=[];
@@ -702,14 +715,12 @@ function dateInfo(iso){
 
 /* UI Init & Refresh */
 function initUI(){
-  document.querySelectorAll('.cal-seg').forEach(el=>el.classList.remove('active'));
-  document.getElementById('seg-'+calMode).classList.add('active');
   renderListMenu();
+  setCalMode(calMode); // Fixes mobile calendar load
   refreshUI();
 }
 function refreshUI(){
   if(currentPage==='list') renderList();
-  if(currentPage==='cal') renderCal();
   if(currentPage==='dash') renderDash();
   if(currentPage==='settings') renderSettings();
 }
@@ -723,7 +734,9 @@ function goPage(p){
   document.getElementById('filter-row').style.display=(p==='list')?'flex':'none';
   document.getElementById('search-bar').classList.toggle('visible',p==='list');
   document.getElementById('page-title-wrap').style.pointerEvents=(p==='settings')?'none':'auto';
-  refreshUI();
+  
+  if(p==='cal') renderCal();
+  else refreshUI();
 }
 
 /* LIST MENU */
@@ -787,13 +800,13 @@ function openFilterModal(){renderFilterModal();document.getElementById('filter-m
 function closeFilterModal(){document.getElementById('filter-modal').classList.remove('open');}
 function renderFilterModal(){
   const acats = getActiveCats();
-  document.getElementById('ff-cats').innerHTML=acats.map(c=>`<button class="fchip${filters.cats.includes(c.id)?' on':''}" onclick="toggleFilter('cats','${c.id}')"><span style="width:7px;height:7px;border-radius:50%;background:${c.color};display:inline-block;margin-right:5px;vertical-align:middle;"></span>${esc(c.label)}</button>`).join('');
+  document.getElementById('ff-cats').innerHTML=acats.map(c=>`<button class="fchip${filters.cats.includes(c.id)?' on':''}" onclick="toggleFilter('cats','${c.id}')"><span style="width:7px;height:7px;border-radius:50%;background:${c.color};display:inline-block;"></span>${esc(c.label)}</button>`).join('');
   
   if (activeListId === 'content') {
     document.getElementById('ff-fmts').innerHTML=FORMATS.map(f=>`<button class="fchip${filters.fmts.includes(f)?' on':''}" onclick="toggleFilter('fmts','${f}')">${f}</button>`).join('');
-    document.getElementById('ff-fmts').parentElement.style.display='block';
+    document.getElementById('fgroup-fmt').style.display='block';
   } else {
-    document.getElementById('ff-fmts').parentElement.style.display='none';
+    document.getElementById('fgroup-fmt').style.display='none';
   }
 }
 document.getElementById('filter-modal').addEventListener('click',function(e){if(e.target===this)closeFilterModal();});
@@ -816,7 +829,7 @@ function handleQuickAdd(e){
     const newTask = {
       id: newId, 
       listId: activeListId, 
-      date: dateVal, // if empty string, it will be mapped to 'nodate' automatically
+      date: dateVal,
       cat: acats.length > 0 ? acats[0].id : '',
       topic: title, 
       fmt: activeListId === 'content' ? 'Без формата' : '',
@@ -832,7 +845,6 @@ function handleQuickAdd(e){
     
     save();
     refreshUI();
-    // Сразу открываем карточку для добавления описания/чеклистов
     openDrawer(newId);
   }
 }
@@ -924,7 +936,8 @@ function renderPostRow(p,bucket){
 function setCalMode(m){
   calMode=m;
   document.querySelectorAll('.cal-seg').forEach(el=>el.classList.remove('active'));
-  document.getElementById('seg-'+m).classList.add('active');
+  const activeSeg = document.getElementById('seg-'+m);
+  if (activeSeg) activeSeg.classList.add('active');
   
   if(m==='schedule'){
     document.getElementById('cal-scroll-area').style.display='none';
@@ -934,7 +947,7 @@ function setCalMode(m){
     document.getElementById('cal-sched-area').style.display='none';
     document.getElementById('cal-grid').className = 'cal-grid ' + (m==='week' ? 'mode-week' : '');
   }
-  renderCal();
+  if(currentPage==='cal') renderCal();
 }
 function moveCal(d){
   if(calMode==='month'){
@@ -1057,7 +1070,6 @@ function renderDash(){
   ];
   document.getElementById('dash-stats').innerHTML=cards.map(c=>`<div class="dash-card"><div class="dash-val"${c.color?` style="color:${c.color}"`:''}>${c.val}</div><div class="dash-label">${esc(c.label)}</div></div>`).join('');
 
-  // done/not done bd
   const maxD=Math.max(1,done,notDone);
   document.getElementById('bd-done').innerHTML=`
     <div class="bd-row"><div class="bd-label"><span class="ldot" style="background:var(--s-ready)"></span>Выполнено</div><div class="bd-bar"><div class="bd-fill" style="width:${(done/maxD)*100}%;background:var(--s-ready)"></div></div><div class="bd-count">${done}</div></div>
@@ -1103,12 +1115,11 @@ function deleteList(id){
 function addCat(){const n=document.getElementById('new-cat-name').value.trim(),c=document.getElementById('new-cat-color').value;if(!n)return;cats.push({id:'cat_'+Date.now(),label:n,color:c,listId:activeListId});document.getElementById('new-cat-name').value='';renderSettings();save();}
 function deleteCat(id){if(getActiveCats().length<=1){alert('Нужна хотя бы одна категория');return;}cats=cats.filter(c=>c.id!==id);renderSettings();save();refreshUI();}
 
-/* DRAWER (Edit OR Create) */
+/* POPUP (Formally Drawer) */
 function openDrawer(id, initDate = ''){
   const acats = getActiveCats();
   
   if (id) {
-    // Редактирование
     const p=posts.find(x=>x.id===id);if(!p)return;
     drawerId=id;
     drawerFiles=(p.files||[]).map(f=>({...f}));
@@ -1130,11 +1141,7 @@ function openDrawer(id, initDate = ''){
     document.getElementById('d-del-btn').style.display = 'inline-block';
     
   } else {
-    // Создание новой записи
-    drawerId = null;
-    drawerFiles = [];
-    drawerSubtasks = [];
-    drawerDoneState = false;
+    drawerId = null; drawerFiles = []; drawerSubtasks = []; drawerDoneState = false;
     
     document.getElementById('d-title').textContent = 'Новая запись';
     document.getElementById('d-meta').textContent = 'Создание...';
@@ -1147,11 +1154,10 @@ function openDrawer(id, initDate = ''){
     document.getElementById('d-edit-fmt').value = 'Без формата';
     
     document.getElementById('d-text').value = '';
-    document.getElementById('d-del-btn').style.display = 'none'; // Нельзя удалить то, что еще не создано
+    document.getElementById('d-del-btn').style.display = 'none'; 
   }
   
   document.getElementById('d-hint').textContent='';
-  
   updateDrawerDoneUI();
   renderSubtasks();
   renderFiles();
@@ -1159,10 +1165,7 @@ function openDrawer(id, initDate = ''){
   document.getElementById('drawer').classList.add('open');
   if(document.getElementById('day-sheet-overlay').classList.contains('open')) closeDaySheet();
   
-  // Ставим фокус на заголовок, если это новая запись
-  if (!id) {
-    setTimeout(() => document.getElementById('d-edit-topic').focus(), 50);
-  }
+  if (!id) setTimeout(() => document.getElementById('d-edit-topic').focus(), 50);
 }
 
 function closeDrawer(){document.getElementById('drawer-bg').classList.remove('open');document.getElementById('drawer').classList.remove('open');drawerId=null;drawerFiles=[];drawerSubtasks=[];}
@@ -1193,32 +1196,18 @@ function updateStText(i, val){drawerSubtasks[i].text = val;}
 function toggleStDone(i){drawerSubtasks[i].done = !drawerSubtasks[i].done; renderSubtasks();}
 function deleteSt(i){drawerSubtasks.splice(i, 1); renderSubtasks();}
 
-
 function saveDrawer(){
   const topic = document.getElementById('d-edit-topic').value.trim();
-  if(!topic) {
-    alert('Укажи тему записи');
-    document.getElementById('d-edit-topic').focus();
-    return;
-  }
+  if(!topic) { alert('Укажи тему записи'); document.getElementById('d-edit-topic').focus(); return; }
 
   snapshot();
-  
   let p;
   if(drawerId) {
     p = posts.find(x=>x.id===drawerId);
   } else {
-    // Создаем новую запись прямо из Drawer'а
-    p = {
-      id: nextId++,
-      listId: activeListId,
-      done: false,
-      text: '',
-      files: [],
-      subtasks: []
-    };
+    p = { id: nextId++, listId: activeListId, done: false, text: '', files: [], subtasks: [] };
     posts.push(p);
-    drawerId = p.id; // Привязываем Drawer к новой записи, чтобы не плодить дубли при повторном "Сохранить"
+    drawerId = p.id; 
     document.getElementById('d-del-btn').style.display = 'inline-block';
   }
   
@@ -1228,7 +1217,7 @@ function saveDrawer(){
   p.fmt=document.getElementById('d-edit-fmt').value;
   p.text=document.getElementById('d-text').value;
   p.done=drawerDoneState;
-  p.subtasks=JSON.parse(JSON.stringify(drawerSubtasks.filter(st => st.text.trim() !== ''))); // clean empty
+  p.subtasks=JSON.parse(JSON.stringify(drawerSubtasks.filter(st => st.text.trim() !== '')));
   p.files=drawerFiles.map(f=>({name:f.name,size:f.size,type:f.type,data:f.data||f.preview||null}));
   
   document.getElementById('d-title').textContent=p.topic;
