@@ -367,6 +367,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <button class="icon-btn" onclick="manualSync()" title="Синхронизировать">
       <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
     </button>
+    <button class="icon-btn" onclick="forcePush()" title="Выгрузить локальные данные в облако" style="color:var(--amber);">
+      <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+    </button>
   </div>
 </div>
 
@@ -644,25 +647,50 @@ function getLocalData(){
 function setLocalData(d){try{localStorage.setItem('papos_v6',JSON.stringify(d));}catch(e){}}
 
 function migrate(d){
-  // Ensure lists exist
-  if(!d.lists||!d.lists.length){
+  // Fix old list IDs: 'content' -> 'l_content', 'tasks' -> 'l_tasks'
+  if(d.lists&&d.lists.length){
+    d.lists=d.lists.map(l=>{
+      if(l.id==='content')return {...l,id:'l_content'};
+      if(l.id==='tasks')return {...l,id:'l_tasks'};
+      return l;
+    });
+    // Fix activeListId
+    if(d.activeListId==='content')d.currentListId='l_content';
+    else if(d.activeListId==='tasks')d.currentListId='l_tasks';
+    else if(!d.currentListId)d.currentListId=d.lists[0].id;
+  } else {
+    // No lists at all — create defaults, move cats into content list
     const contentCats=(d.cats&&d.cats.length)?d.cats:JSON.parse(JSON.stringify(DEFAULT_CATS_CONTENT));
     d.lists=[
       {id:'l_content',name:'Контент-план',cats:contentCats},
       {id:'l_tasks',name:'Задачи',cats:JSON.parse(JSON.stringify(DEFAULT_CATS_TASKS))}
     ];
+    d.currentListId='l_content';
   }
+  // Ensure currentListId is valid
   if(!d.currentListId||!d.lists.find(l=>l.id===d.currentListId))d.currentListId=d.lists[0].id;
+  // Fix posts: map old listId values and missing fields
   d.posts=(d.posts||[]).map(p=>{
-    if(!p.listId)p.listId='l_content';
+    // Fix old listId values
+    if(!p.listId||p.listId==='content')p.listId='l_content';
+    else if(p.listId==='tasks')p.listId='l_tasks';
+    // Convert status to done
     if(typeof p.done==='undefined'){
-      p.done=(p.status==='pub'||p.status==='опубликовано');
-      delete p.status;
+      p.done=(p.status==='pub'||p.status==='опубликовано'||p.status==='ready'||p.status==='готово');
     }
+    delete p.status;
     return p;
   });
+  // Keep cats on lists if they came from old format
+  if(d.cats&&d.cats.length){
+    const contentList=d.lists.find(l=>l.id==='l_content');
+    if(contentList&&(!contentList.cats||!contentList.cats.length)){
+      contentList.cats=d.cats;
+    }
+  }
   delete d.cats;
   delete d.statuses;
+  delete d.activeListId;
   return d;
 }
 
@@ -709,15 +737,28 @@ function getCat(id){return getCurrentCats().find(c=>c.id===id)||{label:id,color:
 function save(){
   const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
   setLocalData(data);
+  lastLocalSaveAt=data.savedAt; // mark local as newest immediately — never let remote overwrite
   clearTimeout(saveTimer);
   setSyncStatus('●','var(--amber)');
   saveTimer=setTimeout(async()=>{
     setSyncStatus('⟳');
     const ok=await sbSave(data);
-    if(ok){lastLocalSaveAt=data.savedAt;setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}
-    else setSyncStatus('⚠','var(--danger)');
+    if(ok){setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}
+    else{
+      setSyncStatus('⚠','var(--danger)');
+      setTimeout(async()=>{const ok2=await sbSave(data);if(ok2){setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}},4000);
+    }
   },1200);
   updateUndoRedoBtns();
+}
+async function forcePush(){
+  clearTimeout(saveTimer);saveTimer=null;
+  setSyncStatus('⟳','var(--muted)');
+  const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
+  setLocalData(data);lastLocalSaveAt=data.savedAt;
+  const ok=await sbSave(data);
+  setSyncStatus(ok?'✓ выгружено':'⚠ ошибка',ok?'var(--gold)':'var(--danger)');
+  setTimeout(()=>setSyncStatus(''),2500);
 }
 function startPolling(){
   pollTimer=setInterval(async()=>{
@@ -742,9 +783,19 @@ async function manualSync(){
   const rsa=remote.savedAt||0;
   const local=getLocalData();
   const lsa=local?.savedAt||0;
-  if(rsa>=lsa){remote.posts=mergeFilesFromLocal(remote.posts);const m=migrate(remote);applyData(m);lastLocalSaveAt=rsa;setLocalData(m);render();setSyncStatus('✓','var(--gold)');}
-  else{const data={lists,currentListId,posts,nextId,savedAt:Date.now()};const ok=await sbSave(data);lastLocalSaveAt=data.savedAt;setLocalData(data);setSyncStatus(ok?'✓':'⚠',ok?'var(--gold)':'var(--danger)');}
+  // strictly greater — never overwrite newer local with older remote
+  if(rsa>lsa){remote.posts=mergeFilesFromLocal(remote.posts);const m=migrate(remote);applyData(m);lastLocalSaveAt=rsa;setLocalData(m);render();setSyncStatus('✓ получено','var(--gold)');}
+  else{const data={lists,currentListId,posts,nextId,savedAt:Date.now()};const ok=await sbSave(data);lastLocalSaveAt=data.savedAt;setLocalData(data);setSyncStatus(ok?'✓ выгружено':'⚠',ok?'var(--gold)':'var(--danger)');}
   setTimeout(()=>setSyncStatus(''),1500);
+}
+async function forcePush(){
+  clearTimeout(saveTimer);saveTimer=null;
+  setSyncStatus('⟳','var(--muted)');
+  const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
+  setLocalData(data);lastLocalSaveAt=data.savedAt;
+  const ok=await sbSave(data);
+  setSyncStatus(ok?'✓ выгружено':'⚠ ошибка',ok?'var(--gold)':'var(--danger)');
+  setTimeout(()=>setSyncStatus(''),2500);
 }
 
 /* ===== UNDO/REDO ===== */
