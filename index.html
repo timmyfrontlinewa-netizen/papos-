@@ -313,6 +313,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="topbar-right">
     <span id="sync-status"></span>
     <button class="icon-btn" onclick="manualSync()">⟳</button>
+    <button class="icon-btn" onclick="forcePush()" title="Выгрузить в облако" style="color:var(--s-wip);">↑</button>
     <button class="icon-btn" id="undo-btn" onclick="undo()" disabled>↩</button>
     <button class="icon-btn" id="redo-btn" onclick="redo()" disabled>↪</button>
   </div>
@@ -588,14 +589,29 @@ function setLocalData(d){try{localStorage.setItem('papos_v5',JSON.stringify(d));
 
 async function load(){
   const local=getLocalData();
-  if(local&&local.posts){applyData(local);lastLocalSaveAt=local.savedAt||0;render();renderCal();}
-  else{posts=SEED.map((p,i)=>({...p,id:i+1}));nextId=SEED.length+1;cats=JSON.parse(JSON.stringify(DEFAULT_CATS));statuses=JSON.parse(JSON.stringify(DEFAULT_STATUSES));render();renderCal();}
+  if(local&&local.posts){
+    applyData(local);lastLocalSaveAt=local.savedAt||0;
+    render();renderCal();
+  } else {
+    posts=SEED.map((p,i)=>({...p,id:i+1}));
+    nextId=SEED.length+1;
+    cats=JSON.parse(JSON.stringify(DEFAULT_CATS));
+    statuses=JSON.parse(JSON.stringify(DEFAULT_STATUSES));
+    render();renderCal();
+  }
   setSyncStatus('⟳','var(--muted)');
   const remote=await sbFetch();
   if(remote&&remote.posts){
     const rsa=remote.savedAt||0;
-    if(rsa>lastLocalSaveAt){remote.posts=mergeFilesFromLocal(remote.posts);applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);render();renderCal();setSyncStatus('↓ обновлено','var(--s-ready)');}
-    else setSyncStatus('✓','var(--s-ready)');
+    // ONLY apply remote if it is strictly newer than local
+    if(rsa>lastLocalSaveAt){
+      remote.posts=mergeFilesFromLocal(remote.posts);
+      applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);
+      render();renderCal();
+      setSyncStatus('↓ обновлено','var(--s-ready)');
+    } else {
+      setSyncStatus('✓','var(--s-ready)');
+    }
   } else setSyncStatus('⚠ офлайн','var(--s-wip)');
   setTimeout(()=>setSyncStatus(''),2000);
 }
@@ -607,13 +623,22 @@ function applyData(d){
 function save(){
   const data={posts,nextId,cats,statuses,savedAt:Date.now()};
   setLocalData(data);
+  lastLocalSaveAt=data.savedAt; // mark local as newest immediately
   clearTimeout(saveTimer);
   setSyncStatus('●','var(--s-wip)');
   saveTimer=setTimeout(async()=>{
     setSyncStatus('⟳','var(--muted)');
     const ok=await sbSave(data);
-    if(ok){lastLocalSaveAt=data.savedAt;setSyncStatus('✓','var(--s-ready)');setTimeout(()=>setSyncStatus(''),1500);}
-    else setSyncStatus('⚠','var(--danger)');
+    if(ok){setSyncStatus('✓','var(--s-ready)');setTimeout(()=>setSyncStatus(''),1500);}
+    else {
+      setSyncStatus('⚠ не сохранено','var(--danger)');
+      // retry once after 3s
+      setTimeout(async()=>{
+        const ok2=await sbSave(data);
+        setSyncStatus(ok2?'✓':'⚠ ошибка',ok2?'var(--s-ready)':'var(--danger)');
+        if(ok2)setTimeout(()=>setSyncStatus(''),1500);
+      },3000);
+    }
   },1200);
   updateUndoRedoBtns();
 }
@@ -623,7 +648,13 @@ function startPolling(){
     const remote=await sbFetch();
     if(!remote||!remote.posts)return;
     const rsa=remote.savedAt||0;
-    if(rsa>lastLocalSaveAt){remote.posts=mergeFilesFromLocal(remote.posts);applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);render();renderCal();setSyncStatus('↓','var(--s-ready)');setTimeout(()=>setSyncStatus(''),1500);}
+    // only update if remote is strictly newer
+    if(rsa>lastLocalSaveAt){
+      remote.posts=mergeFilesFromLocal(remote.posts);
+      applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);
+      render();renderCal();
+      setSyncStatus('↓','var(--s-ready)');setTimeout(()=>setSyncStatus(''),1500);
+    }
   },30000);
 }
 async function manualSync(){
@@ -634,9 +665,29 @@ async function manualSync(){
   const rsa=remote.savedAt||0;
   const local=getLocalData();
   const lsa=local?.savedAt||0;
-  if(rsa>=lsa){remote.posts=mergeFilesFromLocal(remote.posts);applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);render();renderCal();setSyncStatus('✓','var(--s-ready)');}
-  else{const data={posts,nextId,cats,statuses,savedAt:Date.now()};const ok=await sbSave(data);lastLocalSaveAt=data.savedAt;setLocalData(data);setSyncStatus(ok?'✓':'⚠',ok?'var(--s-ready)':'var(--danger)');}
+  // strictly newer only
+  if(rsa>lsa){
+    remote.posts=mergeFilesFromLocal(remote.posts);
+    applyData(remote);lastLocalSaveAt=rsa;setLocalData(remote);render();renderCal();
+    setSyncStatus('✓ получено','var(--s-ready)');
+  } else {
+    // push local to cloud
+    const data={posts,nextId,cats,statuses,savedAt:Date.now()};
+    const ok=await sbSave(data);
+    if(ok){lastLocalSaveAt=data.savedAt;setLocalData(data);}
+    setSyncStatus(ok?'✓ выгружено':'⚠ ошибка',ok?'var(--s-ready)':'var(--danger)');
+  }
   setTimeout(()=>setSyncStatus(''),2000);
+}
+// Force push local data to cloud regardless of timestamps
+async function forcePush(){
+  clearTimeout(saveTimer);saveTimer=null;
+  setSyncStatus('⟳ выгрузка…','var(--muted)');
+  const data={posts,nextId,cats,statuses,savedAt:Date.now()};
+  setLocalData(data);lastLocalSaveAt=data.savedAt;
+  const ok=await sbSave(data);
+  setSyncStatus(ok?'✓ выгружено в облако':'⚠ ошибка',ok?'var(--s-ready)':'var(--danger)');
+  setTimeout(()=>setSyncStatus(''),2500);
 }
 
 /* ===== UNDO/REDO ===== */
