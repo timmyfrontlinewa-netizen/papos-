@@ -83,6 +83,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .page{display:none;padding:0 1.5rem 2rem;animation:fadeIn 0.18s ease;}
 .page.visible{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.spinner{width:28px;height:28px;border:3px solid var(--surface3);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 /* SECTIONS */
 .section{margin-top:1rem;}
@@ -367,7 +369,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <button class="icon-btn" onclick="manualSync()" title="Синхронизировать">
       <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
     </button>
-    <button class="icon-btn" onclick="forcePush()" title="Выгрузить локальные данные в облако" style="color:var(--amber);">
+    <button class="icon-btn" onclick="forcePush()" title="Выгрузить в облако" style="color:var(--amber);">
       <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
     </button>
   </div>
@@ -647,81 +649,78 @@ function getLocalData(){
 function setLocalData(d){try{localStorage.setItem('papos_v6',JSON.stringify(d));}catch(e){}}
 
 function migrate(d){
-  // Fix old list IDs: 'content' -> 'l_content', 'tasks' -> 'l_tasks'
-  if(d.lists&&d.lists.length){
-    d.lists=d.lists.map(l=>{
-      if(l.id==='content')return {...l,id:'l_content'};
-      if(l.id==='tasks')return {...l,id:'l_tasks'};
-      return l;
-    });
-    // Fix activeListId
-    if(d.activeListId==='content')d.currentListId='l_content';
-    else if(d.activeListId==='tasks')d.currentListId='l_tasks';
-    else if(!d.currentListId)d.currentListId=d.lists[0].id;
-  } else {
-    // No lists at all — create defaults, move cats into content list
+  // Ensure lists exist
+  if(!d.lists||!d.lists.length){
     const contentCats=(d.cats&&d.cats.length)?d.cats:JSON.parse(JSON.stringify(DEFAULT_CATS_CONTENT));
     d.lists=[
       {id:'l_content',name:'Контент-план',cats:contentCats},
       {id:'l_tasks',name:'Задачи',cats:JSON.parse(JSON.stringify(DEFAULT_CATS_TASKS))}
     ];
-    d.currentListId='l_content';
   }
-  // Ensure currentListId is valid
   if(!d.currentListId||!d.lists.find(l=>l.id===d.currentListId))d.currentListId=d.lists[0].id;
-  // Fix posts: map old listId values and missing fields
   d.posts=(d.posts||[]).map(p=>{
-    // Fix old listId values
-    if(!p.listId||p.listId==='content')p.listId='l_content';
-    else if(p.listId==='tasks')p.listId='l_tasks';
-    // Convert status to done
+    if(!p.listId)p.listId='l_content';
     if(typeof p.done==='undefined'){
-      p.done=(p.status==='pub'||p.status==='опубликовано'||p.status==='ready'||p.status==='готово');
+      p.done=(p.status==='pub'||p.status==='опубликовано');
+      delete p.status;
     }
-    delete p.status;
     return p;
   });
-  // Keep cats on lists if they came from old format
-  if(d.cats&&d.cats.length){
-    const contentList=d.lists.find(l=>l.id==='l_content');
-    if(contentList&&(!contentList.cats||!contentList.cats.length)){
-      contentList.cats=d.cats;
-    }
-  }
   delete d.cats;
   delete d.statuses;
-  delete d.activeListId;
   return d;
+}
+
+let userHasMadeChanges=false; // becomes true only on real user action
+
+// fetch remote but give up after `ms` so a sleeping Supabase can't hang the app
+function sbFetchTimeout(ms){
+  return Promise.race([sbFetch(),new Promise(r=>setTimeout(()=>r('__timeout__'),ms))]);
+}
+function showLoadingScreen(){
+  const el=document.getElementById('sections');
+  if(el)el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 1rem;gap:14px;"><div class="spinner"></div><div style="font-size:13px;color:var(--muted);">Загрузка…</div></div>';
 }
 
 async function load(){
   const local=getLocalData();
-  if(local&&local.posts){
+  const hasLocal=local&&local.posts&&local.posts.length>0;
+  if(hasLocal){
     const m=migrate(local);
     applyData(m);
     lastLocalSaveAt=m.savedAt||0;
-    render();
   } else {
     lists=[
       {id:'l_content',name:'Контент-план',cats:JSON.parse(JSON.stringify(DEFAULT_CATS_CONTENT))},
       {id:'l_tasks',name:'Задачи',cats:JSON.parse(JSON.stringify(DEFAULT_CATS_TASKS))}
     ];
     currentListId='l_content';
-    posts=[];nextId=1;
-    render();
+    posts=[];nextId=1;lastLocalSaveAt=0;
   }
+  // Show loader while we ask the cloud for fresher data
+  showLoadingScreen();
   setSyncStatus('⟳');
-  const remote=await sbFetch();
-  if(remote&&remote.posts){
+  const remote=await sbFetchTimeout(5000);
+  if(remote==='__timeout__'){
+    render();
+    setSyncStatus(hasLocal?'⚠ медленная сеть':'⚠ офлайн','var(--amber)');
+  } else if(remote&&remote.posts){
     const rsa=remote.savedAt||0;
-    if(rsa>lastLocalSaveAt){
+    // Time is the single source of truth — newest wins
+    if(!hasLocal || rsa>lastLocalSaveAt){
       remote.posts=mergeFilesFromLocal(remote.posts);
       const m=migrate(remote);
-      applyData(m);lastLocalSaveAt=rsa;setLocalData(m);
+      applyData(m);lastLocalSaveAt=rsa||Date.now();setLocalData({...m,savedAt:lastLocalSaveAt});
       render();
-      setSyncStatus('↓');
-    } else setSyncStatus('✓','var(--gold)');
-  } else setSyncStatus('⚠ офлайн','var(--amber)');
+      setSyncStatus('✓ актуально','var(--gold)');
+    } else {
+      render();
+      setSyncStatus('✓','var(--gold)');
+    }
+  } else {
+    render();
+    setSyncStatus(hasLocal?'✓':'⚠ офлайн','var(--amber)');
+  }
   setTimeout(()=>setSyncStatus(''),1800);
 }
 function applyData(d){
@@ -735,9 +734,10 @@ function getCurrentCats(){const l=getCurrentList();return (l&&l.cats)||[];}
 function getCat(id){return getCurrentCats().find(c=>c.id===id)||{label:id,color:'#888',id};}
 
 function save(){
+  userHasMadeChanges=true;
   const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
   setLocalData(data);
-  lastLocalSaveAt=data.savedAt; // mark local as newest immediately — never let remote overwrite
+  lastLocalSaveAt=data.savedAt; // mark local newest immediately
   clearTimeout(saveTimer);
   setSyncStatus('●','var(--amber)');
   saveTimer=setTimeout(async()=>{
@@ -745,27 +745,19 @@ function save(){
     const ok=await sbSave(data);
     if(ok){setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}
     else{
-      setSyncStatus('⚠','var(--danger)');
-      setTimeout(async()=>{const ok2=await sbSave(data);if(ok2){setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}},4000);
+      setSyncStatus('⚠ не сохранено','var(--danger)');
+      setTimeout(async()=>{const ok2=await sbSave(data);if(ok2){setSyncStatus('✓','var(--gold)');setTimeout(()=>setSyncStatus(''),1200);}else setSyncStatus('⚠ ошибка','var(--danger)');},4000);
     }
   },1200);
   updateUndoRedoBtns();
 }
-async function forcePush(){
-  clearTimeout(saveTimer);saveTimer=null;
-  setSyncStatus('⟳','var(--muted)');
-  const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
-  setLocalData(data);lastLocalSaveAt=data.savedAt;
-  const ok=await sbSave(data);
-  setSyncStatus(ok?'✓ выгружено':'⚠ ошибка',ok?'var(--gold)':'var(--danger)');
-  setTimeout(()=>setSyncStatus(''),2500);
-}
 function startPolling(){
   pollTimer=setInterval(async()=>{
-    if(saveTimer)return;
+    if(saveTimer)return; // we have pending local changes — don't touch
     const remote=await sbFetch();
     if(!remote||!remote.posts)return;
     const rsa=remote.savedAt||0;
+    // only pull if remote is strictly newer in time
     if(rsa>lastLocalSaveAt){
       remote.posts=mergeFilesFromLocal(remote.posts);
       const m=migrate(remote);
@@ -783,18 +775,25 @@ async function manualSync(){
   const rsa=remote.savedAt||0;
   const local=getLocalData();
   const lsa=local?.savedAt||0;
-  // strictly greater — never overwrite newer local with older remote
-  if(rsa>lsa){remote.posts=mergeFilesFromLocal(remote.posts);const m=migrate(remote);applyData(m);lastLocalSaveAt=rsa;setLocalData(m);render();setSyncStatus('✓ получено','var(--gold)');}
-  else{const data={lists,currentListId,posts,nextId,savedAt:Date.now()};const ok=await sbSave(data);lastLocalSaveAt=data.savedAt;setLocalData(data);setSyncStatus(ok?'✓ выгружено':'⚠',ok?'var(--gold)':'var(--danger)');}
+  // pull remote only if strictly newer; otherwise push local
+  if(rsa>lsa){
+    remote.posts=mergeFilesFromLocal(remote.posts);const m=migrate(remote);applyData(m);lastLocalSaveAt=rsa;setLocalData(m);render();setSyncStatus('✓ получено','var(--gold)');
+  } else {
+    const data={lists,currentListId,posts,nextId,savedAt:Date.now()};const ok=await sbSave(data);lastLocalSaveAt=data.savedAt;setLocalData(data);setSyncStatus(ok?'✓ выгружено':'⚠',ok?'var(--gold)':'var(--danger)');
+  }
   setTimeout(()=>setSyncStatus(''),1500);
 }
 async function forcePush(){
+  // Safety: refuse to push empty data to cloud
+  if(!posts||posts.length===0){
+    if(!confirm('Сейчас список пуст. Если выгрузить — в облаке тоже станет пусто. Точно выгрузить пустые данные?'))return;
+  }
   clearTimeout(saveTimer);saveTimer=null;
-  setSyncStatus('⟳','var(--muted)');
+  setSyncStatus('⟳ выгрузка…','var(--muted)');
   const data={lists,currentListId,posts,nextId,savedAt:Date.now()};
   setLocalData(data);lastLocalSaveAt=data.savedAt;
   const ok=await sbSave(data);
-  setSyncStatus(ok?'✓ выгружено':'⚠ ошибка',ok?'var(--gold)':'var(--danger)');
+  setSyncStatus(ok?'✓ выгружено в облако':'⚠ ошибка',ok?'var(--gold)':'var(--danger)');
   setTimeout(()=>setSyncStatus(''),2500);
 }
 
